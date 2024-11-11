@@ -1,0 +1,14 @@
+[package]
+name = "lazy_catch"
+version = "0.1.0-alpha.1"
+edition = "2021"
+categories = ["caching"]
+keywords = ["cache"]
+description = "catch result and lazy compute"
+authors = ["Qiu-ShiHong <823984418@qq.com>"]
+license = "MIT"
+repository = "https://github.com/823984418/lazy_catch"
+
+[lib]
+
+[dependencies]
