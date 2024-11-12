@@ -116,7 +116,7 @@ impl System {
         self.version
     }
 
-    pub fn get<'s, N: SystemNode>(&'s self, node: &'s N) -> &'s N::Value {
+    pub fn get<'s, N: SystemNode + ?Sized>(&'s self, node: &'s N) -> &'s N::Value {
         let (_version, value) = node.get_value(self);
         value
     }
@@ -173,7 +173,7 @@ impl<'s, T> Update<'s, T> {
         self.system
     }
 
-    pub fn get<'r, N: SystemNode>(&'r mut self, node: &'r N) -> &'r N::Value {
+    pub fn get<'r, N: SystemNode + ?Sized>(&'r mut self, node: &'r N) -> &'r N::Value {
         let (version, value) = node.get_value(self.system);
         if let Some(old) = self.update_version {
             if old < version {
