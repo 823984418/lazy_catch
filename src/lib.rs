@@ -85,6 +85,12 @@ pub struct System {
     version: SystemVersion,
 }
 
+impl Default for System {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl System {
     ///
     /// ```
@@ -187,5 +193,16 @@ impl<'s, T> Update<'s, T> {
             }
         }
         *self.receiver = Some((update_version, f()));
+    }
+
+    pub fn update_with_old<F: FnOnce(Option<T>) -> T>(self, f: F) {
+        let update_version = self.update_version.unwrap_or(self.system().version());
+        if let Some(current_version) = self.current_version {
+            if update_version <= current_version {
+                return;
+            }
+        }
+        let old = self.receiver.take().map(|(_, v)| v);
+        *self.receiver = Some((update_version, f(old)));
     }
 }
